@@ -1,0 +1,182 @@
+{
+  "metadata": {
+    "version": 1,
+    "disable_limits": false
+  },
+  "nodes": [
+    {
+      "node_id": "6afb47af-c034-4be2-bab6-d2feab68dbba",
+      "type": "SOURCE",
+      "operator": "sagemaker.s3_source_0.1",
+      "parameters": {
+        "dataset_definition": {
+          "__typename": "S3CreateDatasetDefinitionOutput",
+          "datasetSourceType": "S3",
+          "name": "PS_20174392719_1491204439457_log_tiny.csv",
+          "description": null,
+          "s3ExecutionContext": {
+            "__typename": "S3ExecutionContext",
+            "s3Uri": "s3://1s-gary/aiml-blackbelt-2021/rawdata/PS_20174392719_1491204439457_log_tiny.csv",
+            "s3ContentType": "csv",
+            "s3HasHeader": true,
+            "s3FieldDelimiter": ",",
+            "s3DirIncludesNested": false,
+            "s3AddsFilenameColumn": false
+          }
+        }
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "default",
+          "sampling": {
+            "sampling_method": "sample_by_limit",
+            "limit_rows": 50000
+          }
+        }
+      ]
+    },
+    {
+      "node_id": "f50c6b74-91e2-4645-8da2-aab1af2a0886",
+      "type": "TRANSFORM",
+      "operator": "sagemaker.spark.infer_and_cast_type_0.1",
+      "parameters": {},
+      "trained_parameters": {
+        "schema": {
+          "step": "long",
+          "type": "string",
+          "amount": "float",
+          "nameOrig": "string",
+          "oldbalanceOrg": "float",
+          "newbalanceOrig": "float",
+          "nameDest": "string",
+          "oldbalanceDest": "float",
+          "newbalanceDest": "float",
+          "isFraud": "long",
+          "isFlaggedFraud": "long"
+        }
+      },
+      "inputs": [
+        {
+          "name": "default",
+          "node_id": "6afb47af-c034-4be2-bab6-d2feab68dbba",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "b9aecfdc-ac0c-4d97-9612-f967f7c03f75",
+      "type": "VISUALIZATION",
+      "operator": "sagemaker.visualizations.histogram_0.1",
+      "parameters": {
+        "name": "amount",
+        "x_axis": "amount",
+        "color_by": "isFraud"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "f50c6b74-91e2-4645-8da2-aab1af2a0886",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "f3799fce-845d-4876-b9a9-69f0ad3fb4f9",
+      "type": "VISUALIZATION",
+      "operator": "sagemaker.visualizations.feature_correlation_0.1",
+      "parameters": {
+        "name": "feature correlation",
+        "correlation_type": "linear"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "f50c6b74-91e2-4645-8da2-aab1af2a0886",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "be1c6dbb-d7b3-4397-897a-a72c6caa3eff",
+      "type": "VISUALIZATION",
+      "operator": "sagemaker.visualizations.histogram_0.1",
+      "parameters": {
+        "name": "step",
+        "x_axis": "step",
+        "facet_by": "isFraud"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "f50c6b74-91e2-4645-8da2-aab1af2a0886",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "4fb12ac7-1849-4e2c-a54c-57eff2ae5e35",
+      "type": "VISUALIZATION",
+      "operator": "sagemaker.visualizations.histogram_0.1",
+      "parameters": {
+        "name": "amount facet",
+        "x_axis": "amount",
+        "facet_by": "isFraud"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "f50c6b74-91e2-4645-8da2-aab1af2a0886",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "node_id": "5e5f7760-4d06-4a49-86b4-e1831f508a9e",
+      "type": "VISUALIZATION",
+      "operator": "sagemaker.visualizations.scatterplot_0.1",
+      "parameters": {
+        "name": "amount scatter",
+        "x_axis": "isFraud",
+        "y_axis": "amount"
+      },
+      "inputs": [
+        {
+          "name": "df",
+          "node_id": "f50c6b74-91e2-4645-8da2-aab1af2a0886",
+          "output_name": "default"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "default"
+        }
+      ]
+    }
+  ]
+}
