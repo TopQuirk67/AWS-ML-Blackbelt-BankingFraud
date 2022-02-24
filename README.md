@@ -47,6 +47,5 @@ This checklist is created to gauge project progress; not all of it will necessar
 - [ ] Policy for retraining: model drift as measured in f1score zscore change (can include positive and negative changes), limitation on how often you can retrain (once every 0.1m-1.0m transactions seems reasonable)
 - [ ] For the future, it would be great to include CI/CD elements for switching models and code and maybe artifacts, etc., but for this project we will focus on model drift at a trigger
 - [ ] We can have an automated retraining deployment approval or a manual approval process or both. 
-- [ ] 
-
+- [ ] Use Sagemaker Pipelines
 
